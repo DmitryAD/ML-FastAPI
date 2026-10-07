@@ -21,3 +21,27 @@ class DatasetRowChurn(FeatureVectorChurn):
     """Строка обучающего датасета: признаки и целевая переменная."""
 
     churn: int  # 1 - клиент ушёл, 0 - остался
+
+
+class ClassDistribution(BaseModel):
+    """Распределение churn по классам: количество строк и доля."""
+
+    counts: dict[int, int]
+    shares: dict[int, float]
+
+
+class DatasetInfo(BaseModel):
+    n_rows: int
+    n_columns: int
+    columns: list[str]
+    churn_distribution: ClassDistribution
+
+
+class SplitPart(BaseModel):
+    n_rows: int
+    churn_distribution: ClassDistribution
+
+
+class SplitInfo(BaseModel):
+    train: SplitPart
+    test: SplitPart
